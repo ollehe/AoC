@@ -78,4 +78,5 @@ grid = []
 with open('input.txt') as f : 
     grid = [list(line.strip()) for line in f.readlines()]
 
+find_antinodes(grid,False)
 find_antinodes(grid,True)
