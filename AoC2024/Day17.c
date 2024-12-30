@@ -195,20 +195,11 @@ main()
 	Computer c = {.registerA = 0, .registerB = 0, .registerC = 0};
 
 
-	/*
-	 * Register A: 32916674
-	 * Register B: 0
-	 * Register C: 0
-	 * Program: 2,4,1,1,7,5,0,3,1,4,4,0,5,5,3,0
-	 */	
 
-	/*
-	 * Register A _ 
-	 */
 	int output[MAX_PROGRAM_LENGTH] = {0};
-	c.registerA = 25358015;
-	int program[] = {2,4,1,1,7,5,0,3,4,7,1,6,5,5,3,0};
-	int lengthOfProgram = 16;
+	c.registerA = 729;
+	int program[] = {0,1,5,4,3,0};
+	int lengthOfProgram = 6;
 
 	printf("Part 1\n");
 	run(&c,program,lengthOfProgram,output);
