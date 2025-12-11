@@ -34,7 +34,7 @@ static uint64_t readFile(const char *fileName, char **lines)
 
 		strcpy(lines[count], buffer); // Copy the line into the array
 
-		size_t len = strlen(lines[count]);
+		uint64_t len = strlen(lines[count]);
 		if (len > 0 && lines[count][len - 1] == '\n') {
 			lines[count][len - 1] =
 				'\0'; // Replace newline with null terminator
@@ -58,14 +58,14 @@ static uint64_t pow10(uint64_t exponent)
 }
 
 static uint64_t computeMaximalJoltage(char *batteryBank,
-				      size_t numberOfActivated,
-				      size_t currentPosition, size_t k,
+				      uint64_t numberOfActivated,
+				      uint64_t currentPosition, uint64_t k,
 				      HashTable *memo)
 {
 	uint64_t result;
-	size_t totalNumberOfBatteries = strlen(batteryBank);
-	size_t remaining = totalNumberOfBatteries - currentPosition;
-	size_t needed = k - numberOfActivated;
+	uint64_t totalNumberOfBatteries = strlen(batteryBank);
+	uint64_t remaining = totalNumberOfBatteries - currentPosition;
+	uint64_t needed = k - numberOfActivated;
 
 	// Base: already picked k digits
 	if (numberOfActivated == k) {
@@ -87,7 +87,7 @@ static uint64_t computeMaximalJoltage(char *batteryBank,
 	// Must take all remaining digits
 	if (remaining == needed) {
 		result = 0;
-		for (size_t i = currentPosition; i < totalNumberOfBatteries;
+		for (uint64_t i = currentPosition; i < totalNumberOfBatteries;
 		     ++i) {
 			result = result * 10 +
 				 (uint64_t)(batteryBank[i] - ZERO_CHAR);

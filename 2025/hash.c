@@ -5,19 +5,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-static const size_t INITIAL_CAPACITY = 8192;
+static const uint64_t INITIAL_CAPACITY = 8192;
 
 static inline bool keyEquality(Key a, Key b)
 {
 	return a.a == b.a && a.b == b.b;
 }
 
-static void resizeHashTable(HashTable *table, size_t newCapacity)
+static void resizeHashTable(HashTable *table, uint64_t newCapacity)
 {
 	printf("Resizing Hash Table. Current Capacity: %zu\n", table->capacity);
 	HashTable newTable;
 	initializeHashTable(&newTable, newCapacity);
-	for (size_t i = 0; i < table->capacity; i++) {
+	for (uint64_t i = 0; i < table->capacity; i++) {
 		Entry e = table->entries[i];
 		if (e.used) {
 			insertKey(&newTable, e.key, e.value);
@@ -47,7 +47,7 @@ uint64_t hashKey(Key key)
 	return h;
 }
 
-void initializeHashTable(HashTable *table, size_t capacity)
+void initializeHashTable(HashTable *table, uint64_t capacity)
 {
 	if (capacity == 0) {
 		capacity = INITIAL_CAPACITY;
@@ -76,7 +76,7 @@ void freeHashTable(HashTable *table)
 bool lookUpKey(HashTable *table, Key key, uint64_t *out)
 {
 	uint64_t h = hashKey(key);
-	size_t index = h & (table->capacity - 1);
+	uint64_t index = h & (table->capacity - 1);
 	while (table->entries[index].used) {
 		if (keyEquality(key, table->entries[index].key)) {
 			*out = table->entries[index].value;
@@ -93,7 +93,7 @@ void insertKey(HashTable *table, Key key, uint64_t value)
 		resizeHashTable(table, table->capacity * 2);
 	}
 	uint64_t h = hashKey(key);
-	size_t index = h & (table->capacity - 1);
+	uint64_t index = h & (table->capacity - 1);
 	while (true) {
 		Entry *entry = &table->entries[index];
 
@@ -115,7 +115,7 @@ void insertKey(HashTable *table, Key key, uint64_t value)
 bool containsKey(HashTable *table, Key key)
 {
 	uint64_t h = hashKey(key);
-	size_t index = h & (table->capacity - 1);
+	uint64_t index = h & (table->capacity - 1);
 	while (table->entries[index].used) {
 		if (keyEquality(key, table->entries[index].key)) {
 			return true;

@@ -43,7 +43,7 @@ static uint64_t readFile(const char *fileName, char **lines)
 
 		strcpy(lines[count], buffer); // Copy the line into the array
 
-		size_t len = strlen(lines[count]);
+		uint64_t len = strlen(lines[count]);
 		if (len > 0 && lines[count][len - 1] == '\n') {
 			lines[count][len - 1] =
 				'\0'; // Replace newline with null terminator
@@ -64,9 +64,9 @@ static bool isValid(Coordinate coord, int rows, int columns)
 		coord.column < columns);
 }
 
-static size_t getNumberOfNeighbors(Coordinate coord, int rows, int columns)
+static uint64_t getNumberOfNeighbors(Coordinate coord, int rows, int columns)
 {
-	size_t count = 0;
+	uint64_t count = 0;
 	for (int i = -1; i <= 1; i++) {
 		for (int j = -1; j <= 1; j++) {
 			if (i == 0 && j == 0)
@@ -83,7 +83,7 @@ static size_t getNumberOfNeighbors(Coordinate coord, int rows, int columns)
 }
 
 static void getNeighbors(Coordinate coord, int rows, int columns,
-			 size_t *numberOfNeighbors, Coordinate **neighbors)
+			 uint64_t *numberOfNeighbors, Coordinate **neighbors)
 {
 	*numberOfNeighbors = getNumberOfNeighbors(coord, rows, columns);
 	*neighbors = malloc(*numberOfNeighbors * sizeof(Coordinate));
@@ -106,14 +106,14 @@ static void getNeighbors(Coordinate coord, int rows, int columns,
 	}
 }
 
-static size_t countNumberOfIncidentPaperRolls(Coordinate coord, int rows,
-					      int columns, char **grid)
+static uint64_t countNumberOfIncidentPaperRolls(Coordinate coord, int rows,
+						int columns, char **grid)
 {
-	size_t count = 0;
-	size_t numberOfNeighbors;
+	uint64_t count = 0;
+	uint64_t numberOfNeighbors;
 	Coordinate *neighbors = NULL;
 	getNeighbors(coord, rows, columns, &numberOfNeighbors, &neighbors);
-	for (size_t i = 0; i < numberOfNeighbors; i++) {
+	for (uint64_t i = 0; i < numberOfNeighbors; i++) {
 		if (grid[neighbors[i].row][neighbors[i].column] == PAPER_ROLL)
 			count++;
 	}
@@ -145,10 +145,10 @@ static bool findAccessiblePaperRoll(int rows, int columns, char **grid,
 	return false;
 }
 
-static size_t findNumberOfAccessiblePaperRolls(int rows, int columns,
-					       char **grid)
+static uint64_t findNumberOfAccessiblePaperRolls(int rows, int columns,
+						 char **grid)
 {
-	size_t numberOfAccessiblePaperRolls = 0;
+	uint64_t numberOfAccessiblePaperRolls = 0;
 	for (int row = 0; row < rows; row++) {
 		for (int column = 0; column < columns; column++) {
 			if (grid[row][column] == PAPER_ROLL &&
@@ -162,9 +162,9 @@ static size_t findNumberOfAccessiblePaperRolls(int rows, int columns,
 	return numberOfAccessiblePaperRolls;
 }
 
-static size_t removePaperRolls(int rows, int columns, char **grid)
+static uint64_t removePaperRolls(int rows, int columns, char **grid)
 {
-	size_t count = 0;
+	uint64_t count = 0;
 	Coordinate coord = { 0 };
 	while (findAccessiblePaperRoll(rows, columns, grid, &coord)) {
 		grid[coord.row][coord.column] = EMPTY;
@@ -176,13 +176,13 @@ static size_t removePaperRolls(int rows, int columns, char **grid)
 int main()
 {
 	char *grid[MAX_LINES];
-	size_t rows = readFile("input.txt", grid);
-	size_t columns = strlen(grid[0]);
+	uint64_t rows = readFile("input.txt", grid);
+	uint64_t columns = strlen(grid[0]);
 	printf("Number of accessible paper rolls: %zu\n",
 	       findNumberOfAccessiblePaperRolls(rows, columns, grid));
 	printf("Number of removed paper rolls: %zu\n",
 	       removePaperRolls(rows, columns, grid));
-	for (size_t i = 0; i < rows; i++) {
+	for (uint64_t i = 0; i < rows; i++) {
 		free(grid[i]);
 	}
 }

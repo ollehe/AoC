@@ -35,7 +35,7 @@ static int readFile(const char *fileName, char **lines)
 
 		strcpy(lines[count], buffer); // Copy the line into the array
 
-		size_t len = strlen(lines[count]);
+		uint64_t len = strlen(lines[count]);
 		if (len > 0 && lines[count][len - 1] == '\n') {
 			lines[count][len - 1] =
 				'\0'; // Replace newline with null terminator
@@ -58,9 +58,6 @@ static int turnDial(char **instructions, int numberOfInstructions, bool part2)
 	int numberOfZeros = 0;
 	int numberOfPasses = 0;
 	for (int i = 0; i < numberOfInstructions; i++) {
-		printf("Instruction: %s\n", instructions[i]);
-		printf("Current position: %d\n", currentPosition);
-
 		direction = instructions[i][0];
 		numberOfSteps = atoi(instructions[i] + 1);
 
@@ -81,7 +78,6 @@ static int turnDial(char **instructions, int numberOfInstructions, bool part2)
 			numberOfZeros++;
 		}
 	}
-	printf("Current position: %d\n", currentPosition);
 	return part2 ? numberOfPasses : numberOfZeros;
 }
 
@@ -89,10 +85,10 @@ int main()
 {
 	char *instructions[MAX_LINES];
 	int numberOfLines = readFile("input.txt", instructions);
-	int numberOfZeros = turnDial(instructions, numberOfLines, true);
+	int numberOfZeros = turnDial(instructions, numberOfLines, false);
 	printf("Part 1: Number of zeros: %d\n", numberOfZeros);
-	//numberOfZeros = turnDial(instructions, numberOfLines, true);
-	//printf("Part 2: Number of zeros: %d\n", numberOfZeros);
+	numberOfZeros = turnDial(instructions, numberOfLines, true);
+	printf("Part 2: Number of zeros: %d\n", numberOfZeros);
 
 	for (int i = 0; i < numberOfLines; i++) {
 		free(instructions[i]);

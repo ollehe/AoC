@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <sys/types.h>
 
 static const uint64_t MAX_LINES = 4096;
 static const uint64_t MAX_LINE_LENGTH = 2048;
@@ -47,7 +46,7 @@ static uint64_t readFile(const char *fileName, char **lines)
 	return count; // Return the number of lines read
 }
 
-static inline size_t maximum(size_t a, size_t b)
+static inline uint64_t maximum(uint64_t a, uint64_t b)
 {
 	return a > b ? a : b;
 }
@@ -142,8 +141,8 @@ static uint64_t countNumberOfFreshIDs(uint64_t *ids, uint64_t numberOfIds,
 	return count;
 }
 
-static size_t unionOfRanges(Range *ranges, uint64_t numberOfRanges,
-			    Range **result)
+static uint64_t unionOfRanges(Range *ranges, uint64_t numberOfRanges,
+			      Range **result)
 {
 	qsort(ranges, numberOfRanges, sizeof(Range), compareRanges);
 	*result = malloc(numberOfRanges * sizeof(Range));
@@ -152,7 +151,7 @@ static size_t unionOfRanges(Range *ranges, uint64_t numberOfRanges,
 		exit(EXIT_FAILURE);
 	}
 
-	size_t count = 0;
+	uint64_t count = 0;
 	(*result)[count] = ranges[0];
 	for (uint64_t i = 1; i < numberOfRanges; i++) {
 		if ((*result)[count].high + 1 < ranges[i].low) {
