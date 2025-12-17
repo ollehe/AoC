@@ -177,11 +177,13 @@ int main(void)
 	countNumberOfSplits(grid, rows);
 	countNumberOfTimelines(newGrid, rows);
 
-	for (uint64_t i = 0; i < rows; i++)
+	for (uint64_t i = 0; i < rows; i++) {
 		free(grid[i]);
+	}
 
-	for (uint64_t i = 0; i < rows; i++)
+	for (uint64_t i = 0; i < rows; i++) {
 		free(newGrid[i]);
+	}
 	free(newGrid);
 
 	return 0;
